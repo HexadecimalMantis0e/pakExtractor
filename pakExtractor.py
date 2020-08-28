@@ -37,26 +37,16 @@ for i in range(0x00, fileCount):
         nameString += nameChar
     nameString = nameString[:-1]
 
-    if '/' in nameString:
-        print nameString
-        dirMarker = nameString.find('/')
-        dirString = nameString[:+dirMarker]
-        nameString = nameString[+dirMarker+1:]
-        filePath = os.path.join(args.pakfile[:-4], dirString)
-        if os.path.exists(filePath) == False:
-            os.makedirs(filePath)
-    else:
-        print nameString
-        filePath = args.pakfile[:-4]
-        if os.path.exists(filePath) == False:
-            os.mkdir(filePath)
+    print nameString
 
+    filePath = os.path.join(args.pakfile[:-4], nameString)
+    if os.path.exists(os.path.dirname(filePath)) == False:
+        os.makedirs(os.path.dirname(filePath))
 
     f0.seek(fileAddress, os.SEEK_SET)
     fileBytes = f0.read(fileSize)
 
-    newFilePath = os.path.join(filePath, nameString)
-    f1 = open(newFilePath, "wb")
+    f1 = open(filePath, "wb")
     f1.write(fileBytes)
     f1.close()
 
