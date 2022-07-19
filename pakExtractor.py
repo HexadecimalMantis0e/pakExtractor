@@ -8,19 +8,19 @@ def main():
     args = parser.parse_args()
 
     f0 = open(args.pakfile, "rb")
-    headerMagic = struct.unpack('I', f0.read(4))[0]
+    headerMagic = struct.unpack("<I", f0.read(4))[0]
 
     if headerMagic != 0x1234567A:
         raise ValueError("Not a pak!")
 
     print("Extracting pak...")
-    fileCount = struct.unpack('I', f0.read(4))[0]
+    fileCount = struct.unpack("<I", f0.read(4))[0]
     f0.seek(0x18, os.SEEK_SET)
 
     for i in range(0, fileCount):
-        nameAddress = struct.unpack('I', f0.read(4))[0]
-        fileAddress = struct.unpack('I', f0.read(4))[0]
-        fileSize = struct.unpack('I', f0.read(4))[0]
+        nameAddress = struct.unpack("<I", f0.read(4))[0]
+        fileAddress = struct.unpack("<I", f0.read(4))[0]
+        fileSize = struct.unpack("<I", f0.read(4))[0]
         getBack = f0.tell()
         f0.seek(nameAddress)
 
